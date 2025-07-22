@@ -1,0 +1,10 @@
+# 1. Verzeichnis anlegen (z. B. im Projekt-Root)
+python3 -m venv .venv
+
+# 2. Aktivieren
+source .venv/bin/activate
+
+# Du siehst jetzt (venv) im Prompt:
+(venv) rock@…:~/repos/audit-safety/pricing-core$
+
+

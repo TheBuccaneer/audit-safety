@@ -1,7 +1,11 @@
 // pricing-core/benches/throughput.rs
 
-use criterion::{criterion_group, criterion_main, Criterion, BenchmarkId};
+use criterion::{
+    criterion_group, criterion_main, Criterion,
+    BenchmarkId,
+};
 use pricing_core::{bs_mc, bs_mc_parallel};
+use std::time::Duration;
 
 fn bench_bs_variants(c: &mut Criterion) {
     let mut group = c.benchmark_group("BlackScholes_MC");
@@ -18,6 +22,17 @@ fn bench_bs_variants(c: &mut Criterion) {
     }
     group.finish();
 }
+fn criterion_config() -> Criterion {
+    Criterion::default()
+        .sample_size(50)                           // weniger Samples, wenn’s sonst zu lange dauert
+        .measurement_time(Duration::from_secs(20)) // Messdauer pro Benchmark
+        .warm_up_time(Duration::from_secs(15))      // Warm‑up vor jeder Messung
+                           // volle Ausgabe auf der Konsole
+}
 
-criterion_group!(benches, bench_bs_variants);
+criterion_group! {
+    name = benches;                     // Name der Gruppe
+    config = criterion_config();        // hier wird Deine Funktion verwendet
+    targets = bench_bs_variants         // Deine Bench‑Funktion(en)
+}
 criterion_main!(benches);
